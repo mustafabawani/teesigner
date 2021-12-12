@@ -2,7 +2,8 @@ import React, {useEffect,useState} from 'react'
 import styled from 'styled-components'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
 import { sliderItems } from '../data'
-
+import ProductList from '../Pages/ProductList';
+import { useHistory } from 'react-router-dom';
 
 const Container=styled.div`
     width:100%;
@@ -68,9 +69,10 @@ const Description = styled.p`
     font-weight:500;
     letter-spacing:3px;
 `
-const Button = styled.button`
+const Button = styled.a`
     padding:10px;
     font-size:20px;
+    margin:20px;
     background-color:yellow;
     color:gray;
     cursor:pointer;
@@ -88,7 +90,8 @@ const Slider = () => {
             }
 
 
-        } 
+        }
+        // const History=useHistory();
     return (
         <Container>
             <Arrow direction="left" onClick={()=>handleClick("left")}>
@@ -104,7 +107,8 @@ const Slider = () => {
                 <InfoContainer> 
                     <Title>{item.title} </Title>
                     <Description>{item.desc}</Description>
-                    <Button>Shop Now</Button>
+                    <Button href="/ProductList">Shop Now</Button>
+                    <Button href="/ProductList">Sell Tshirts</Button>
                 </InfoContainer>
                 </Slide>
                 ))}    

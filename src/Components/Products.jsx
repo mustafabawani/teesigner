@@ -8,6 +8,7 @@ const Container =styled.div`
     display:flex;
     flex-wrap:wrap;
     justify-content:space-between;
+    z-index: 2;
 `
 
 const Products = () => {

@@ -32,6 +32,7 @@ const Container =styled.div`
     &:hover ${Info}{
         opacity:1; 
     }
+    z-index:1;
 `
 const Circle=styled.div`
     width:200px;
@@ -44,6 +45,7 @@ const Circle=styled.div`
 const Image=styled.img`
     height:75%;
     z-index:2;
+    background-size:cover;
 `
 
 
@@ -64,13 +66,14 @@ const Icon=styled.div`
         background-color:#e9f5f5;
         transform:scale(1.1);
     }
+
 `
 const Product = ({item}) => {
     return (
         <Container>
             <Circle />
             <Image src={item.img} />
-            <Info>
+            <a href='/Product'><Info>
                 <Icon>
                     <ShoppingCartOutlined / >
                 </Icon>
@@ -80,7 +83,7 @@ const Product = ({item}) => {
                 <Icon>
                     <FavoriteBorderOutlined / >
                 </Icon>
-            </Info>
+            </Info></a>
         </Container>
     )
 }

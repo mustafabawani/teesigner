@@ -5,21 +5,29 @@ import { IconButton } from '@material-ui/core'
 import Badge from '@mui/material/Badge';
 import { grey } from '@material-ui/core/colors';
 import { fontSize } from '@mui/system';
+import {mobile} from "../Responsive"
 
 
 const Container = styled.div`
     height: 60px;
     background-color: yellow;
+    ${mobile({backgroundColor:"red"})}
+    position:sticky;
+    top:0;
+    z-index: 3;
+    
 `
 const Wrapper = styled.div`
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
+    
 `
 const Language = styled.span`
     font-size: 12px;
     cursor: pointer;
     flex=1;
+    
 `
 const Left = styled.div`
      flex:1;
@@ -35,6 +43,7 @@ const MenuItem = styled.div`
     cursor: pointer;
     flex=1;
     margin-left: 30px;
+    color:black;
 `
 const Right = styled.div`
     flex:1;
@@ -69,9 +78,11 @@ const Input = styled.input`
 `
 const Logo = styled.h1`
     font-weight:bold;
+    color:black;
 `
 
 export default function Navbar() {
+    const hStyle = { color: 'red' };
     return (
         <Container>
             <Wrapper>
@@ -89,14 +100,14 @@ export default function Navbar() {
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <Logo>Teezigners</Logo>
+                    <a color="black" href="/"><Logo>Teezigners</Logo></a>
                 </Center>
                 <Right>
-                    <MenuItem>Register</MenuItem>
-                    <MenuItem>Sign In</MenuItem>
+                <a href="/Register"><MenuItem>Register</MenuItem> </a>
+                <a href="/Login"><MenuItem>Sign In</MenuItem></a>
                     <MenuItem>
                     <Badge badgeContent={4} color="primary">
-                    <ShoppingCartOutlined />                    
+                    <a href="/Cart"><ShoppingCartOutlined /></a>                    
                     </Badge>
                     </MenuItem>
                 </Right>

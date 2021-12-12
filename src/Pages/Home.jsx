@@ -11,10 +11,10 @@ export default function Home() {
     return (
         <div>
             <Announcement/>
-            <Navbar/>
+            <Navbar />
             <Slider/>
-            <Categories/>
-            <Products/>
+            {/* <Categories/> */}
+            <Products/>  
             <Newsletter/>
             <Footer />
         </div>

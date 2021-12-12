@@ -43,8 +43,12 @@ export const popularProducts = [
         img: "https://assets.designhill.com/resize_img.php?atyp=st_page_file&pth=ft_bt_thlcirlblirirb_org||BT5976||two_heading_left_content_image_right_link_button_left_image_right_info_right_button_left_image_img&flp=1568788228-20074541015d81cf045137d2-74959478.png",     
     },
     {
-        id: 2,
+        id: 3,
         img: "https://cdn2.sculpteo.com/blog/wp-content/uploads/2018/05/3Dprintedknit-min.jpg",   
-    }
+    },
+    {
+        id: 4,
+        img: "https://cdn2.sculpteo.com/blog/wp-content/uploads/2018/05/3Dprintedknit-min.jpg",   
+    },
     
 ];
