@@ -8,10 +8,10 @@ const pass = process.env.password;
 //Connection
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host     : host,
-    user     : user,
-    password : pass,
-    database : database
+    host     : "localhost",
+    user     : "root",
+    password : "password",
+    database : "tees"
 });
 
 connection.connect(function(err) {

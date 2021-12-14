@@ -111,13 +111,14 @@ const Button=styled.button`
 `
 
   
-const Product = () => {
+const ProductDesc = ({item}) => {
     
     return (
         <Container>
             <Announcement/>
             <Navbar/>
             <Wrapper>
+            <button type="button" onClick="document.write({item})">Try it</button>
                 <ImgContainer>
                     <Image src="https://cdn.shopify.com/s/files/1/1520/5960/products/F19P101003_TS_ForestGreen_Front_1194x.jpg?v=1626822996.jpg"/>
                 </ImgContainer>
@@ -158,4 +159,4 @@ const Product = () => {
     )
 }
 
-export default Product
+export default ProductDesc

@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import * as yup from'yup'
-import { Email,Password } from '../Validation/Validation'
-import { Formik,ErrorMessage } from 'formik';
-import {useForm} from "react-hook-form"
+import * as yup from 'yup'
+import { Email, Password, Name, Address, ConfirmPassword } from '../Validation/Validation'
+import { Formik, ErrorMessage } from 'formik';
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 import EntryCard from '../Components/EntryCard';
 import { useState } from "react";
 import InputGroup from '../Components/InputGroup';
 import Input from '../Components/Input';
 import Button from '../Components/Button';
 import styled from 'styled-components';
+import axios from "axios";
 
 const EntryPage = styled.div`
 display : flex;
@@ -34,6 +36,10 @@ text-color:red;
 const Login = () => {
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
+    
+    const [email, setEmail] = useState("");
+    const [password,setPassword] = useState("");
+
     const createUser = async (event) => {
         event.preventDefault();
         let Data = {
@@ -42,6 +48,12 @@ const Login = () => {
         };
         setEmailValid(await Email.isValid({ email: Data.email }));
         setPasswordValid(await Password.isValid({ password: Data.password }));
+    }
+        const Login_customer = () => {
+            axios.post("http://localhost:3001/loginUser", {
+                email:email,
+                password:password
+            });
     }
 
     return (
@@ -55,19 +67,23 @@ const Login = () => {
 
                     <InputGroup>
                         <label htmlFor="login-email">Email Address</label>
-                        <Input type="text" placeholder="name@email. com" id="login-email" required="true" />
+                        <Input type="text" placeholder="name@email. com" id="login-email" required="true" onChange={(e) => {
+                            setEmail(e.target.value);
+                        }} />
                         {emailValid ? '' :
                             <TitleText>Invalid Email</TitleText>
                         }
                     </InputGroup>
                     <InputGroup>
                         <label htmlFor=" login-password">Password</label>
-                        <Input type="password" placeholder="Password" id="login-password" />
+                        <Input type="password" placeholder="Password" id="login-password" onChange={(e) => {
+                            setPassword(e.target.value);
+                        }} />
                         {passwordValid ? '' :
                             <TitleText>Invalid Password</TitleText>
                         }
                     </InputGroup>
-                    <Button type="submit" full>Log in</Button>
+                    <Button type="submit" full onClick={Login_customer}>Log in</Button>
                 </form>
                 <span>
                     Don't have an account?

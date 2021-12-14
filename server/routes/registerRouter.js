@@ -1,18 +1,18 @@
 const express= require("express");
 const router=express.Router();
 var cryptr = require('cryptr');
-var db=require("../index")
+var app = express();
+var db = require('../Db');
 router.route("/").post((req, res) => {
-    const name= req.body.name;
+    const name=req.body.name;
     const email=req.body.email;
     const password=req.body.password;
-    // const encryptedPassword= cryptr.encrypt(req.body.password);
+    // const encryptedPassword=cryptr.encrypt(req.body.password);
+    // console.log(encryptedPassword);
     const location=req.body.location;
-    // console.log(name,email);
     const sqlInsert = 
     "INSERT INTO customer (name,email,password,location) VALUES (?,?,?,?);";
     db.query(sqlInsert,[name,email,password,location],(err,result)=>{
-
         if (error) {
             res.json({
                 status:false,
@@ -24,8 +24,6 @@ router.route("/").post((req, res) => {
                 message:'user registered sucessfully'
             })
           }
-    
-
     });
 });
 

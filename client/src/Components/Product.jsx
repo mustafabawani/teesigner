@@ -1,7 +1,10 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@material-ui/icons'
 import React from 'react'
-import styled from 'styled-components'
+import { Link } from "react-router-dom";
 
+import styled from 'styled-components'
+import ProductDesc from '../Pages/ProductDesc'
+// import Product from '../pages/Product'
 const Info=styled.div`
     opacity:0;
     width:100%;
@@ -71,21 +74,35 @@ const Icon=styled.div`
 `
 const Product = ({item}) => {
     return (
-        <Container>
-            <Circle />
-            <Image src={item.picture_url} />
-            <a href='/Product'><Info>
-                <Icon>
-                    <ShoppingCartOutlined / >
-                </Icon>
-                <Icon>
-                    <SearchOutlined / >
-                </Icon>
-                <Icon>
-                    <FavoriteBorderOutlined / >
-                </Icon>
-            </Info></a>
-        </Container>
+        
+        <>
+            <Link to = {{
+            pathname: '/ProductDesc',
+            state:  {item}
+            }} >HELLO CLICK ME</Link> 
+        </>
+
+        // <Container>
+        //     <Circle />
+        //     <Image src={item.picture_url} />
+               
+        //     {/* <a href='/ProductDesc'> */}
+        //     {/* <ProductDesc> */}
+        //         <Info>
+        //             <Icon>
+        //                 <ShoppingCartOutlined / >
+        //             </Icon>
+        //             <Icon>
+        //                 <SearchOutlined / >
+        //             </Icon>
+        //             <Icon>
+        //                 <FavoriteBorderOutlined / >
+        //             </Icon>
+        //         </Info>
+        //         {/* </ProductDesc> */}
+        //     {/* </a> */}
+        //     {/* </Link> */}
+        // </Container>
     )
 }
 

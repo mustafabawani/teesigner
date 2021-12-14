@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import * as yup from 'yup'
-import { Email,Password,Name,Address,ConfirmPassword } from '../Validation/Validation'
+import { Email, Password, Name, Address, ConfirmPassword } from '../Validation/Validation'
 import { Formik, ErrorMessage } from 'formik';
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -27,13 +27,13 @@ font-weight : 600;
 margin: 40px 0;
 color: inherit;
 `
-const TitleText=styled.span`
+const TitleText = styled.span`
         font-size:11px;
         font-weight:500;
         margin:0px 0px 10px;
         color:red;
 `
-const Agreement=styled.span`
+const Agreement = styled.span`
     font-size:12px;
     margin:10px 0px;
 `
@@ -43,6 +43,12 @@ function SignUp() {
     const [nameValid, setNameValid] = useState(true);
     const [addressValid, setAddressValid] = useState(true);
     const [confirmPasswordValid, setConfirmPasswordValid] = useState(true);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [location, setLocation] = useState("");
+
     const createUser = async (event) => {
         event.preventDefault();
         let Data = {
@@ -59,15 +65,21 @@ function SignUp() {
         setAddressValid(await Address.isValid({ address: Data.address }));
         setConfirmPasswordValid(await ConfirmPassword.isValid({ confirmPassword: Data.confirmPassword }));
     }
-    const Register_customer = () => {
-        axios.post("http://localhost:3001/api/register_customer", {
-          name:nameValid,
-          email:emailValid,
-          password:confirmPasswordValid,
-          location:addressValid,
+    const Register_customer = async()=> {
+        axios.post("http://localhost:3001/register_customer", {
+            name: name,
+            email:email,
+            password: password,
+            location: location,
         });
-    }
+        const url = "http://localhost:3001/register_customer"
+        const response = await fetch(url);
+        const data =  await response.json();
+        console.log(data);
 
+    }
+    
+    
     return (
         <EntryPage>
             <PageHeader to="/">Teezigner</PageHeader>
@@ -77,21 +89,27 @@ function SignUp() {
 
                     <InputGroup>
                         <label htmlFor="signup-name">Full Name</label>
-                        <Input type="text" placeholder="John Doe" id="signup-name" />
+                        <Input type="text" placeholder="John Doe" id="signup-name" onChange={(e) => {
+                            setName(e.target.value);
+                        }} />
                         {nameValid ? '' :
                             <TitleText>Invalid Name</TitleText>
                         }
                     </InputGroup>
                     <InputGroup>
                         <label htmlFor="signup-email">Email Address</label>
-                        <Input type="text" placeholder="nameaemail. com" id="signup-email" />
+                        <Input type="text" placeholder="nameaemail. com" id="signup-email" onChange={(e) => {
+                            setEmail(e.target.value);
+                        }} />
                         {emailValid ? '' :
                             <TitleText>Invalid Email</TitleText>
                         }
                     </InputGroup>
                     <InputGroup>
                         <label htmlFor="signup-email">Address</label>
-                        <Input type="text" placeholder="Enter Address" id="signup-email" />
+                        <Input type="text" placeholder="Enter Address" id="signup-email" onChange={(e) => {
+                            setLocation(e.target.value);
+                        }} />
                         {addressValid ? '' :
                             <TitleText>Invalid Address</TitleText>
                         }
@@ -107,7 +125,9 @@ function SignUp() {
 
                     <InputGroup>
                         <label htmlFor="signup-signup-password">Password</label>
-                        <Input type="password" placeholder="Confirm Password" id="signup-password" />
+                        <Input type="password" placeholder="Confirm Password" id="signup-password" onChange={(e) => {
+                            setPassword(e.target.value);
+                        }} />
                         {passwordValid ? '' :
                             <TitleText>Invalid Password</TitleText>
 
