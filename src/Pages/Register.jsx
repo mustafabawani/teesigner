@@ -88,7 +88,8 @@ const Register = () => {
         setPasswordValid(await Password.isValid({password: Data.password}));
         setNameValid(await Name.isValid({name: Data.name}));
         setAddressValid(await Address.isValid({address: Data.address}));
-        setConfirmPasswordValid(await ConfirmPassword.isValid({confirmPassword: Data.confirmPassword}));
+        if (Data.password!=Data.confirmPassword)
+            setConfirmPasswordValid(false);
     }
 
     return (

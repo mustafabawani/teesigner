@@ -20,7 +20,7 @@ const Name= yup.object().shape(
 
 const Address= yup.object().shape(
     {
-        name: yup.string(),
+        name: yup.string().required(),
     }
 );
 
@@ -30,4 +30,10 @@ const ConfirmPassword= yup.object().shape(
     }
 );
 
-export {Email,Password,Name,Address,ConfirmPassword}
+const Cost= yup.object().shape(
+    {
+        Cost: yup.number(),
+    }
+);
+
+export {Email,Password,Name,Address,ConfirmPassword,Cost}

@@ -104,7 +104,7 @@ export default function Navbar() {
                 </Center>
                 <Right>
                 <a href="/Register"><MenuItem>Register</MenuItem> </a>
-                <a href="/Login"><MenuItem>Sign In</MenuItem></a>
+                <a href="/LoginTemp"><MenuItem>Sign In</MenuItem></a>
                     <MenuItem>
                     <Badge badgeContent={4} color="primary">
                     <a href="/Cart"><ShoppingCartOutlined /></a>                    
