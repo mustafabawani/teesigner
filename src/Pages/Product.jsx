@@ -56,14 +56,6 @@ const FilterTitle=styled.span`
     font-weight:200;
 `
 
-const FilterColor=styled.div`
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background-color: ${props=>props.color};
-    margin:0px 5px;
-    cursor:pointer;
-`
 
 const FilterSize=styled.select`
     margin-left:10px;
@@ -124,12 +116,6 @@ const Product = () => {
                     <Desc> T-shirts are generally made of a stretchy, light, and inexpensive fabric and are easy to clean.</Desc>
                     <Price>$20</Price>
                     <FilterContainer>
-                        <Filter>
-                            <FilterTitle>Color</FilterTitle>
-                            <FilterColor color="black"/>
-                            <FilterColor color="darkblue"/>
-                            <FilterColor color="gray"/>
-                        </Filter>
 
                         <Filter>
                              <FilterTitle>Size</FilterTitle>
