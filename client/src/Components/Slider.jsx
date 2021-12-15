@@ -1,9 +1,7 @@
-import React, {useEffect,useState} from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
 import { sliderItems } from '../data'
-import ProductList from '../Pages/ProductList';
-import { useHistory } from 'react-router-dom';
 
 const Container=styled.div`
     width:100%;

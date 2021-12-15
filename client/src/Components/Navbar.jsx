@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Search, ShoppingCart, ShoppingCartOutlined } from "@material-ui/icons"
-import { IconButton } from '@material-ui/core'
+import { Search, ShoppingCartOutlined } from "@material-ui/icons"
 import Badge from '@mui/material/Badge';
-import { grey } from '@material-ui/core/colors';
-import { fontSize } from '@mui/system';
 import {mobile} from "../Responsive"
 
 
@@ -82,7 +79,6 @@ const Logo = styled.h1`
 `
 
 export default function Navbar() {
-    const hStyle = { color: 'red' };
     return (
         <Container>
             <Wrapper>

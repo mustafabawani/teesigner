@@ -1,10 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import * as yup from 'yup'
+import { Navigate, Link } from 'react-router-dom';
 import { Email, Password, Name, Address, ConfirmPassword } from '../Validation/Validation'
-import { Formik, ErrorMessage } from 'formik';
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
 import EntryCard from '../Components/EntryCard';
 import { useState } from "react";
 import InputGroup from '../Components/InputGroup';
@@ -12,6 +8,7 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import styled from 'styled-components';
 import axios from "axios";
+
 
 
 const EntryPage = styled.div`
@@ -48,6 +45,7 @@ function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [location, setLocation] = useState("");
+    const [RedirectState, setRedirectState] = useState(false);
 
     const createUser = async (event) => {
         event.preventDefault();
@@ -65,23 +63,27 @@ function SignUp() {
         setAddressValid(await Address.isValid({ address: Data.address }));
         setConfirmPasswordValid(await ConfirmPassword.isValid({ confirmPassword: Data.confirmPassword }));
     }
-    const Register_customer = async()=> {
+    const Register_customer = () => {
+            if(name && email && password && location){
         axios.post("http://localhost:3001/register_customer", {
             name: name,
             email:email,
             password: password,
             location: location,
-        });
-        const url = "http://localhost:3001/register_customer"
-        const response = await fetch(url);
-        const data =  await response.json();
-        console.log(data);
-
-    }
-    
+        }).then((res) => {
+            setRedirectState(res.data.status);
+          console.log(res.data);
+        //   const navigate = useNavigate();
+        //    navigate('/',{state:'true'});
+        //  }
+           
+            })};
+    };
     
     return (
-        <EntryPage>
+        <>
+        { RedirectState ? <Navigate to="/" /> : 
+        (<EntryPage>
             <PageHeader to="/">Teezigner</PageHeader>
             <EntryCard>
                 <h2>Sign up</h2>
@@ -145,7 +147,9 @@ function SignUp() {
 
                 </span>
             </EntryCard>
-        </EntryPage>
+        </EntryPage>)
+                }
+                </>
     );
 }
 export default SignUp;

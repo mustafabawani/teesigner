@@ -1,10 +1,6 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@material-ui/icons'
 import React from 'react'
-import { Link } from "react-router-dom";
-
 import styled from 'styled-components'
-import ProductDesc from '../Pages/ProductDesc'
-// import Product from '../pages/Product'
 const Info=styled.div`
     opacity:0;
     width:100%;
@@ -75,34 +71,31 @@ const Icon=styled.div`
 const Product = ({item}) => {
     return (
         
-        <>
-            <Link to = {{
-            pathname: '/ProductDesc',
-            state:  {item}
-            }} >HELLO CLICK ME</Link> 
-        </>
+        // <>
+        //     <Link to = {{
+        //     pathname: '/ProductDesc',
+        //     state:  {item}
+        //     }} >HELLO CLICK ME</Link> 
+        // </>
 
-        // <Container>
-        //     <Circle />
-        //     <Image src={item.picture_url} />
+        <Container>
+            <Circle />
+            <Image src={item.picture_url} />
                
-        //     {/* <a href='/ProductDesc'> */}
-        //     {/* <ProductDesc> */}
-        //         <Info>
-        //             <Icon>
-        //                 <ShoppingCartOutlined / >
-        //             </Icon>
-        //             <Icon>
-        //                 <SearchOutlined / >
-        //             </Icon>
-        //             <Icon>
-        //                 <FavoriteBorderOutlined / >
-        //             </Icon>
-        //         </Info>
-        //         {/* </ProductDesc> */}
-        //     {/* </a> */}
-        //     {/* </Link> */}
-        // </Container>
+            <a href={'/ProductDesc/' + item.product_id}>
+                <Info>
+                    <Icon>
+                        <ShoppingCartOutlined / >
+                    </Icon>
+                    <Icon>
+                        <SearchOutlined / >
+                    </Icon>
+                    <Icon>
+                        <FavoriteBorderOutlined / >
+                    </Icon>
+                </Info>
+            </a>
+        </Container>
     )
 }
 

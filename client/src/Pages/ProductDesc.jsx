@@ -1,11 +1,12 @@
 import { Add, Remove } from '@material-ui/icons'
-import React from 'react'
+import React, {  useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Announcement from '../Components/Announcement'
 import Footer from '../Components/Footer'
 import Navbar from '../Components/Navbar'
 import Newsletter from '../Components/Newsletter'
-
+import {useParams} from "react-router-dom"
+import axios from 'axios'
 const Container=styled.div`
 
 `
@@ -56,14 +57,14 @@ const FilterTitle=styled.span`
     font-weight:200;
 `
 
-const FilterColor=styled.div`
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background-color: ${props=>props.color};
-    margin:0px 5px;
-    cursor:pointer;
-`
+// const FilterColor=styled.div`
+//     width:20px;
+//     height:20px;
+//     border-radius:50%;
+//     background-color: ${props=>props.color};
+//     margin:0px 5px;
+//     cursor:pointer;
+// `
 
 const FilterSize=styled.select`
     margin-left:10px;
@@ -111,28 +112,38 @@ const Button=styled.button`
 `
 
   
-const ProductDesc = ({item}) => {
+const ProductDesc = () => {
+
+    let {id} = useParams();
+    const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/getOneProduct/" + id.toString()).then((response) => {
+      setProduct(response.data);
+    });
+    
+  }, []);
+    console.log(product);
     
     return (
         <Container>
             <Announcement/>
             <Navbar/>
             <Wrapper>
-            <button type="button" onClick="document.write({item})">Try it</button>
                 <ImgContainer>
-                    <Image src="https://cdn.shopify.com/s/files/1/1520/5960/products/F19P101003_TS_ForestGreen_Front_1194x.jpg?v=1626822996.jpg"/>
+                    <Image src={product.picture_url}/>
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>T-Shirts</Title>
+                    <Title>{product.product_name}</Title>
                     <Desc> T-shirts are generally made of a stretchy, light, and inexpensive fabric and are easy to clean.</Desc>
-                    <Price>$20</Price>
+                    <Price>${product.unit_price}</Price>
                     <FilterContainer>
-                        <Filter>
+                        {/* <Filter>
                             <FilterTitle>Color</FilterTitle>
                             <FilterColor color="black"/>
                             <FilterColor color="darkblue"/>
                             <FilterColor color="gray"/>
-                        </Filter>
+                        </Filter> */}
 
                         <Filter>
                              <FilterTitle>Size</FilterTitle>

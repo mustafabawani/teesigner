@@ -8,14 +8,21 @@ router.route("/").post((req, res)=>{
     var email=req.body.email;
     var password=req.body.password;   
     console.log("in");
-    db.query('SELECT * FROM customer WHERE email = ? AND password=?;',[email,password], function (error, results, fields) {
+    db.query('SELECT * FROM customer WHERE email = ? AND password=?;',[email,password], function (err, results, fields) {
         console.log(results.email,results.password);
         console.log(results);
-    if(results.length >0){
-        console.log("noice");}
-        else{
-            console.log("off");
+        if (err) {
+            res.json({
+                status:false,
+                message:'there are some error with query'
+            })
         }
+        else{
+              res.json({
+                status:true,
+                message:'user logged in sucessfully'
+            })
+          }
 //         decryptedString = cryptr.decrypt(results.password);
         // if(password==results.password){
         //     console.log("logged in");

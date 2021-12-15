@@ -1,10 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import * as yup from 'yup'
-import { Email, Password, Name, Address, ConfirmPassword } from '../Validation/Validation'
-import { Formik, ErrorMessage } from 'formik';
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { Navigate, Link } from 'react-router-dom';
+import { Email, Password} from '../Validation/Validation'
 import EntryCard from '../Components/EntryCard';
 import { useState } from "react";
 import InputGroup from '../Components/InputGroup';
@@ -35,8 +31,9 @@ text-color:red;
 `
 const Login = () => {
     const [emailValid, setEmailValid] = useState(true);
-    const [passwordValid, setPasswordValid] = useState(true);
-    
+    const [passwordValid, setPasswordValid] = useState(true);    
+    const [RedirectState, setRedirectState] = useState(false);
+
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
 
@@ -53,11 +50,16 @@ const Login = () => {
             axios.post("http://localhost:3001/loginUser", {
                 email:email,
                 password:password
-            });
-    }
+            }).then((res) => {
+            setRedirectState(res.data.status);
+            console.log(res.data);           
+        })};
+
 
     return (
-        <EntryPage>
+        <>
+        { RedirectState ? <Navigate to="/" /> : 
+        (<EntryPage>
             {/* <Router exact path="/"> */}
             <PageHeader to="/">Teezigner</PageHeader>
             {/* </Router> */}
@@ -91,7 +93,9 @@ const Login = () => {
 
                 </span>
             </EntryCard>
-        </EntryPage>
+            </EntryPage>)
+                }
+                </>
     );
 }
 export default Login;
