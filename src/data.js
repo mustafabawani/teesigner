@@ -22,6 +22,7 @@ export const categories = [
         title: "Shirt Style",
         desc: "Best Quality",
         bg: "fbf0fd",
+        size:"S",
     },
     {
         id: 2,
@@ -29,6 +30,15 @@ export const categories = [
         title: "Pant Style",
         desc: "Best Quality",
         bg: "fbf0fd",
+        size:"L",
+    },
+    {
+        id: 2,
+        img: "https://rascofr.com/wp-content/uploads/2020/08/FR8303CH-Womens-Charcoal-Gray-Field-Pant-copy.jpg",
+        title: "Pant Style",
+        desc: "Best Quality",
+        bg: "fbf0fd",
+        size:"L",
     }
     
 ];

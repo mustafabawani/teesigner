@@ -1,9 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import * as yup from'yup'
 import { Name,Cost } from '../Validation/Validation'
-import { Formik,ErrorMessage } from 'formik';
-import {useForm} from "react-hook-form"
 import EntryCard from '../Components/EntryCard';
 import { useState } from "react";
 import InputGroup from '../Components/InputGroup';
@@ -55,7 +52,6 @@ const InputPicture=styled.input`
 const CreateProduct = () => {
     const [nameValid, setNameValid] = useState(true);
     const [costValid, setCostValid] = useState(true);
-    const [pictureValid,setPictureValid]=useState(true)
     const createUser = async (event) => {
         event.preventDefault();
         let Data = {
@@ -95,7 +91,7 @@ const CreateProduct = () => {
                     </InputGroup>
                     <InputGroup>
                         <label htmlFor=" login-picture" >Picture</label>
-                        <InputPicture type="file" placeholder="Enter Cost" id="login-picture" required="true"/>
+                        <InputPicture type="file" placeholder="Enter Picture" id="login-picture" required="true"/>
                         {costValid ? '' :
                             <TitleText>Invalid Cost</TitleText>
                         }

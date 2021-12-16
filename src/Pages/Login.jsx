@@ -28,6 +28,10 @@ margin:0px 0px 0px;
 color:red;
 text-color:red;
 `
+const Profit=styled.span`
+    // width:400px;
+    margin:0px 0px 0px 0px;
+`
 const Login = () => {
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
@@ -63,6 +67,9 @@ const Login = () => {
                         {passwordValid ? '' :
                             <TitleText>Invalid Password</TitleText>
                         }
+                    </InputGroup>
+                    <InputGroup>
+                    <span><input type="checkbox" placeholder="Select" id="login-check"/>    I am a Vendour</span>                                                
                     </InputGroup>
                     <Button type="submit" full>Log in</Button>
                 </form>

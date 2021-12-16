@@ -1,4 +1,4 @@
-import { Email, Facebook, Instagram, MailOutline, Phone, Room, Twitter } from '@material-ui/icons'
+import { Facebook, Instagram, MailOutline, Phone, Room, Twitter } from '@material-ui/icons'
 import React from 'react'
 import styled from 'styled-components'
 
