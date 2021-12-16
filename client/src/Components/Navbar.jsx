@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Search, ShoppingCartOutlined } from "@material-ui/icons"
+import { ReplayOutlined, Search, ShoppingCartOutlined } from "@material-ui/icons"
 import Badge from '@mui/material/Badge';
 import {mobile} from "../Responsive"
-
+import {login,logout} from '../features/user'
+import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 const Container = styled.div`
     height: 60px;
@@ -79,6 +82,14 @@ const Logo = styled.h1`
 `
 
 export default function Navbar() {
+    const dispatch = useDispatch();
+
+    const loggedIn = useSelector(state => state.user.value.loggedIn);
+    console.log(loggedIn);
+    const logoutHandler = () => {
+        console.log('e');
+        dispatch(logout());
+    };
     return (
         <Container>
             <Wrapper>
@@ -96,18 +107,25 @@ export default function Navbar() {
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <a color="black" href="/"><Logo>Teezigners</Logo></a>
+                    <Link to="/"><Logo>Teezigners</Logo></Link>
                 </Center>
                 <Right>
-                <a href="/SignUp"><MenuItem>SignUp</MenuItem> </a>
-                <a href="/Login"><MenuItem>Login</MenuItem></a>
+                <Link to="/SignUp"><MenuItem>SignUp</MenuItem> </Link>
+                {}
+                {(loggedIn)?
+                (<button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></button>):
+                (<Link to="/Login"><MenuItem>Login</MenuItem></Link>)
+                }
+            
                     <MenuItem>
                     <Badge badgeContent={4} color="primary">
-                    <a href="/Cart"><ShoppingCartOutlined /></a>                    
+                    <Link to="/cart"><ShoppingCartOutlined /></Link>                    
                     </Badge>
                     </MenuItem>
                 </Right>
             </Wrapper>
         </Container>
+        // <Switch
     )
 }
+ 

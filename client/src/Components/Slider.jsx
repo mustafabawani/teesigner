@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
 import { sliderItems } from '../data'
+import { Link } from '@mui/material'
 
 const Container=styled.div`
     width:100%;
@@ -67,12 +68,13 @@ const Description = styled.p`
     font-weight:500;
     letter-spacing:3px;
 `
-const Button = styled.a`
+const Button = styled.button`
     padding:10px;
     font-size:20px;
     margin:20px;
+    border : 0px;
     background-color:yellow;
-    color:gray;
+    text-color:gray;
     cursor:pointer;
 `
 const Slider = () => {
@@ -105,8 +107,8 @@ const Slider = () => {
                 <InfoContainer> 
                     <Title>{item.title} </Title>
                     <Description>{item.desc}</Description>
-                    <Button href="/ProductList">Shop Now</Button>
-                    <Button href="/ProductList">Sell Tshirts</Button>
+                    <Button><Link to="/ProductList">Shop Now</Link></Button>
+                    <Button><Link to="/ProductList">Sell Tshirts</Link></Button>
                 </InfoContainer>
                 </Slide>
                 ))}    

@@ -8,7 +8,6 @@ import Cart from './Pages/Cart';
 import SignUp from './Pages/SignUp';
 
 
-
 const App = () => {
   return(
       <BrowserRouter> 

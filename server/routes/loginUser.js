@@ -9,8 +9,6 @@ router.route("/").post((req, res)=>{
     var password=req.body.password;   
     console.log("in");
     db.query('SELECT * FROM customer WHERE email = ? AND password=?;',[email,password], function (err, results, fields) {
-        console.log(results.email,results.password);
-        console.log(results);
         if (err) {
             res.json({
                 status:false,
@@ -18,11 +16,21 @@ router.route("/").post((req, res)=>{
             })
         }
         else{
+            if(results[0].password){
               res.json({
                 status:true,
-                message:'user logged in sucessfully'
-            })
+                message:'user logged in sucessfully',
+                name: results[0].name,
+                location: results[0].location
+              })
           }
+          else{
+            res.json({
+                status:true,
+                message:'password is incorrect',
+              })
+          }
+        }
 //         decryptedString = cryptr.decrypt(results.password);
         // if(password==results.password){
         //     console.log("logged in");

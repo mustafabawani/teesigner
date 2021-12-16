@@ -8,6 +8,8 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import styled from 'styled-components';
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login, logout } from "../features/user";
 
 const EntryPage = styled.div`
 display : flex;
@@ -37,6 +39,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
 
+    const dispatch=useDispatch();
     const createUser = async (event) => {
         event.preventDefault();
         let Data = {
@@ -47,13 +50,16 @@ const Login = () => {
         setPasswordValid(await Password.isValid({ password: Data.password }));
     }
         const Login_customer = () => {
+            if(email && password){
             axios.post("http://localhost:3001/loginUser", {
                 email:email,
                 password:password
             }).then((res) => {
+            dispatch(login({ name: res.data.name, email: email,location: res.data.location, loggedIn: true}));
             setRedirectState(res.data.status);
-            console.log(res.data);           
-        })};
+            console.log(res.data);    
+                  
+        })}};
 
 
     return (

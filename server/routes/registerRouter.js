@@ -15,7 +15,6 @@ router.route("/").post((req, res) => {
     const sqlInsert = 
     "INSERT INTO customer (name,email,password,location) VALUES (?,?,?,?);";
     db.query(sqlInsert,[name,email,password,location],(err,result)=>{
-        
         if (err) {
             res.json({
                 status:false,
