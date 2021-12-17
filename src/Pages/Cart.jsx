@@ -4,6 +4,9 @@ import Navbar from '../Components/Navbar'
 import styled from "styled-components"
 import Footer from '../Components/Footer'
 import { Add, Remove } from '@material-ui/icons'
+import { useSelector } from 'react-redux'
+import { categories } from '../data'
+import { Link } from "react-router-dom";
 
 const Container=styled.div``
 
@@ -150,7 +153,11 @@ const Button=styled.button`
     font-weight:600;
 `
 
+
+
 const Cart = () => {
+    const cart=useSelector(state=>state.cart);
+    
     return (
         <Container>
             <Announcement/>
@@ -168,45 +175,30 @@ const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        <Product>
+                        {categories.map((item) => (
+                        <>
+                            <Product>
                             <ProductDetail>
-                                <Image src="https://rascofr.com/wp-content/uploads/2020/08/FR8303CH-Womens-Charcoal-Gray-Field-Pant-copy.jpg"/>
+                                <Image src={item.img}/>
                                 <Details>
-                                    <ProductName><b>Product:</b>Naima Tshirt</ProductName>
-                                    <ProductID><b>ID:</b>123</ProductID>
-                                    <ProductColor color="black"/>
-                                    <ProductSize><b>Size:</b>L</ProductSize>
+                                    <ProductName><b>Product:</b>{item.title}</ProductName>
+                                    <ProductID><b>ID:</b>{item.id}</ProductID>
+                                    <ProductSize><b>Size:</b>{item.size}</ProductSize>
                                 </Details>
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
                                     <Add/>
-                                    <ProductAmount>2 </ProductAmount>
+                                    <ProductAmount>{cart.quantity} </ProductAmount>
                                     <Remove/>
                                 </ProductAmountContainer>
-                                <ProductPrice>$10</ProductPrice>
+                                <ProductPrice>${item.cost}</ProductPrice>
+                            
                             </PriceDetail>
+                            
                         </Product>
-                        <Hr/>
-                        <Product>
-                            <ProductDetail>
-                                <Image src="https://rascofr.com/wp-content/uploads/2020/08/FR8303CH-Womens-Charcoal-Gray-Field-Pant-copy.jpg"/>
-                                <Details>
-                                    <ProductName><b>Product:</b>Naima Tshirt</ProductName>
-                                    <ProductID><b>ID:</b>123</ProductID>
-                                    <ProductColor color="black"/>
-                                    <ProductSize><b>Size:</b>L</ProductSize>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <Add/>
-                                    <ProductAmount>2 </ProductAmount>
-                                    <Remove/>
-                                </ProductAmountContainer>
-                                <ProductPrice>$10</ProductPrice>
-                            </PriceDetail>
-                        </Product>
+                        <Hr/></>))}
+                        
                     </Info>
                     <Summary>
                         <SummaryTitle>Order Summary</SummaryTitle>
@@ -226,7 +218,7 @@ const Cart = () => {
                             <SummaryItemText >Total</SummaryItemText>
                             <SummaryItemPrice>$30</SummaryItemPrice>
                         </SummaryItem>
-                        <Button>Checkout Now</Button>
+                        <Link to="/Alert"><Button >Checkout Now</Button></Link>
                     </Summary>
 
                 </Bottom>

@@ -78,7 +78,7 @@ const Details=styled.div`
     display:flex;
     flex-direction:column;
     justify-content:space-around;
-    width:600px;
+    width:60%;
 `
 
 const ProductName=styled.span``
@@ -185,16 +185,20 @@ const View = () => {
                         <Product>
                             <ProductDetail >
                             {categories.map((item) => (
-                                <><Image src={item.img}/>
+                                
+                                <>
+                                <Image src={item.img}/>
                                 <Details>
                                     <ProductName><b>Product:</b>{item.title}</ProductName>
                                     <ProductID><b>ID:</b>{item.id}</ProductID>
-                                    <ProductPrice><b>Cost:</b> $10</ProductPrice>
-                                <Hr/>
-
+                                    <ProductPrice><b>Cost:</b> ${item.cost}</ProductPrice>
+                                    <Hr/>                                   
                                 </Details>
+                                
                                 <Icons href="/EditProduct">  <Edit/><br/> <Delete/></Icons>
+                                
                                 </>
+                                
                             ))}
                             </ProductDetail>
                             

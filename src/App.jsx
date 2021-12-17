@@ -8,6 +8,8 @@ import Cart from './Pages/Cart';
 import CreateProduct from './Pages/CreateProduct';
 import EditProduct from './Pages/EditProduct';
 import View from './Pages/View';
+import Alert from './Pages/Alert';
+
 const App = () => {
   return(
       <BrowserRouter> 
@@ -21,6 +23,7 @@ const App = () => {
             <Route exact path="/EditProduct" element={<EditProduct/>} />
             <Route exact path="/CreateProduct" element={<CreateProduct/>} />
             <Route exact path="/View" element={<View/>} />
+            <Route exact path="/Alert" element={<Alert/>} />
           </Routes>
       </BrowserRouter>
       
