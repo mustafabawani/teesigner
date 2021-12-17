@@ -4,7 +4,8 @@ var app = express();
 var db = require('../Db');
 router.route("/:id").get((req, res) => {
     const product_id=req.params.id;
-    db.query("Select * from product where product_id = ?",[product_id], function (error, result, fields) {
+    db.query("Select * from product P,vendor V where P.product_id = ? and P.vendor_id=V.vendor_id; ",
+    [product_id], function (error, result, fields) {
         res.send(result[0]);
     }); 
 });   

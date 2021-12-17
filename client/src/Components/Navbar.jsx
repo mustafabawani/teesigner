@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ReplayOutlined, Search, ShoppingCartOutlined } from "@material-ui/icons"
+import {Search, ShoppingCartOutlined } from "@material-ui/icons"
 import Badge from '@mui/material/Badge';
 import {mobile} from "../Responsive"
-import {login,logout} from '../features/user'
+import {logout} from '../features/user'
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
@@ -84,10 +84,15 @@ const Logo = styled.h1`
 export default function Navbar() {
     const dispatch = useDispatch();
 
-    const loggedIn = useSelector(state => state.user.value.loggedIn);
-    console.log(loggedIn);
+    const UserloggedIn = useSelector(state => state.user.value.UserloggedIn);
+    const VendorloggedIn = useSelector(state => state.user.value.VendorloggedIn);
+    // const UserloggedIn=React.useState(localStorage.getItem('UserloggedIn'));
+    // const VendorloggedIn=localStorage.getItem('VendorloggedIn');
     const logoutHandler = () => {
-        console.log('e');
+        // console.log('e');
+            localStorage.setItem('id',0);
+            localStorage.setItem('UserloggedIn', false);
+            localStorage.setItem('VendorloggedIn',false);
         dispatch(logout());
     };
     return (
@@ -110,11 +115,20 @@ export default function Navbar() {
                     <Link to="/"><Logo>Teezigners</Logo></Link>
                 </Center>
                 <Right>
-                <Link to="/SignUp"><MenuItem>SignUp</MenuItem> </Link>
-                {}
-                {(loggedIn)?
+                    {}
+                {(UserloggedIn)?
                 (<button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></button>):
-                (<Link to="/Login"><MenuItem>Login</MenuItem></Link>)
+                (VendorloggedIn)?
+                    (<>
+                    <button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></button>
+                    <Link to="/CreateProduct"><MenuItem>Create product</MenuItem></Link>
+                    <Link to="/View"><MenuItem>Your products</MenuItem> </Link>
+                    </>)
+                    :
+                (<>
+                <Link to="/Login"><MenuItem>Login</MenuItem></Link>
+                <Link to="/SignUp"><MenuItem>SignUp</MenuItem> </Link>
+                </>)
                 }
             
                     <MenuItem>

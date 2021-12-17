@@ -8,6 +8,9 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import styled from 'styled-components';
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../features/user";
+import ls from 'local-storage'
 
 
 
@@ -45,8 +48,18 @@ function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [location, setLocation] = useState("");
-    const [RedirectState, setRedirectState] = useState(false);
 
+    const [RedirectState, setRedirectState] = useState(false);
+    const [UserloggedIn, setUserloggedIn] = useState(false);  
+    const [VendorloggedIn, setVendorloggedIn] = useState(false);
+
+
+    const dispatch=useDispatch();
+    const [checked, setChecked] = useState(false);
+  
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+    };
     const createUser = async (event) => {
         event.preventDefault();
         let Data = {
@@ -56,33 +69,51 @@ function SignUp() {
             password: event.target[3].value,
             confirmPassword: event.target[4].value,
         };
-        console.log(Data);
         setEmailValid(await Email.isValid({ email: Data.email }));
         setPasswordValid(await Password.isValid({ password: Data.password }));
         setNameValid(await Name.isValid({ name: Data.name }));
         setAddressValid(await Address.isValid({ address: Data.address }));
         setConfirmPasswordValid(await ConfirmPassword.isValid({ confirmPassword: Data.confirmPassword }));
     }
-    const Register_customer = () => {
-            if(name && email && password && location){
+
+    const Register_customer = () => {    
+    if(name && email && password && location){
+        if(!checked){
         axios.post("http://localhost:3001/register_customer", {
             name: name,
             email:email,
             password: password,
             location: location,
         }).then((res) => {
+            localStorage.setItem('id', res.data.id);
+            localStorage.setItem('UserloggedIn', true);
+            localStorage.setItem('VendorloggedIn',false);
+            dispatch(login({ id:res.data.id,UserloggedIn: true, VendorloggedIn:false}));
             setRedirectState(res.data.status);
-          console.log(res.data);
-        //   const navigate = useNavigate();
-        //    navigate('/',{state:'true'});
-        //  }
-           
-            })};
+            setUserloggedIn(res.data.status);           
+            })}
+        else{
+            axios.post("http://localhost:3001/register_vendor", {
+                name: name,
+                email:email,
+                password: password,
+                location: location,
+            }).then((res) => {
+                localStorage.setItem('id', res.data.id);
+                localStorage.setItem('UserloggedIn', false);
+                localStorage.setItem('VendorloggedIn',true);
+                dispatch(login({ id:res.data.id,UserloggedIn: false, VendorloggedIn:true}));
+                setRedirectState(res.data.status);
+                setVendorloggedIn(res.data.status);           
+            })}
+        }
     };
     
     return (
-        <>
-        { RedirectState ? <Navigate to="/" /> : 
+        <> { (RedirectState && UserloggedIn)  ? 
+            <Navigate to="/" /> : 
+            (RedirectState && VendorloggedIn)  ? 
+                <Navigate to="/View" />: 
         (<EntryPage>
             <PageHeader to="/">Teezigner</PageHeader>
             <EntryCard>
@@ -138,6 +169,9 @@ function SignUp() {
                     {confirmPasswordValid ? '' :
                         <TitleText style="{color: red;}">Password doesn't match</TitleText>
                     }
+                    <InputGroup>
+                    <span><input type="checkbox" placeholder="Select" id="login-check" onChange={handleChange}/>    Register as Vendor?</span>                                                
+                    </InputGroup>
                     <Agreement>Terms And Conditions</Agreement>
                     <Button type="submit" onClick={Register_customer} full>Sign up</Button>
                 </form>

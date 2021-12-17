@@ -29,5 +29,10 @@ const ConfirmPassword= yup.object().shape(
         ConfirmPassword: yup.string().oneOf([yup.ref('Password'),null],'Password must match'),
     }
 );
+const Cost= yup.object().shape(
+    {
+        Cost: yup.number(),
+    }
+);
 
-export {Email,Password,Name,Address,ConfirmPassword}
+export {Email,Password,Name,Address,ConfirmPassword,Cost}

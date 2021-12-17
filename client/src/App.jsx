@@ -6,6 +6,9 @@ import ProductDesc from "./Pages/ProductDesc";
 import Login from './Pages/Login';
 import Cart from './Pages/Cart';
 import SignUp from './Pages/SignUp';
+import CreateProduct from './Pages/CreateProduct';
+import EditProduct from './Pages/EditProduct';
+import View from './Pages/View';
 
 
 const App = () => {
@@ -18,6 +21,9 @@ const App = () => {
             <Route exact path="/SignUp" element={<SignUp/>} />
             <Route exact path="/Login" element={<Login/>} />
             <Route exact path="/Cart" element={<Cart/>} />
+            <Route exact path="/EditProduct" element={<EditProduct/>} />
+            <Route exact path="/CreateProduct" element={<CreateProduct/>} />
+            <Route exact path="/View" element={<View/>} />
           </Routes>
       </BrowserRouter>
   )

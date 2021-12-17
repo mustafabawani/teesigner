@@ -1,12 +1,12 @@
 import { formLabelClasses } from "@mui/material";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialStateValue = { name: "",  email: "" , location: "" , loggedIn: false};
+const initialStateValue = { id:0 , UserloggedIn: false, VendorloggedIn:false};
 
 export const userSlice = createSlice({
   name: "user",
   initialState: { value: {
-      ...initialStateValue
+      ...{id:localStorage.getItem('item'),UserloggedIn:localStorage.getItem('UserloggedIn'),VendorloggedIn:localStorage.getItem('item')}
   } },
   reducers: {
     login: (state, action) => {
@@ -16,7 +16,6 @@ export const userSlice = createSlice({
     },
 
     logout: (state) => {
-        console.log('test', state.value);
       state.value = {
           ...initialStateValue
       };

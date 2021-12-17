@@ -32,6 +32,10 @@ const Title=styled.h1`
     font-weight:200;
 
 `
+const Subtitle=styled.h3`
+    font-weight:200;
+
+`
 const Desc=styled.p`
     margin:20px 0px;
 
@@ -135,7 +139,8 @@ const ProductDesc = () => {
                 </ImgContainer>
                 <InfoContainer>
                     <Title>{product.product_name}</Title>
-                    <Desc> T-shirts are generally made of a stretchy, light, and inexpensive fabric and are easy to clean.</Desc>
+                    <Subtitle>Designed By:{product.name}</Subtitle>
+                    <Desc>T-shirts are generally made of a stretchy, light, and inexpensive fabric and are easy to clean.</Desc>
                     <Price>${product.unit_price}</Price>
                     <FilterContainer>
                         {/* <Filter>

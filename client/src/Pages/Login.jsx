@@ -9,7 +9,7 @@ import Button from '../Components/Button';
 import styled from 'styled-components';
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login, logout } from "../features/user";
+import { login} from "../features/user";
 
 const EntryPage = styled.div`
 display : flex;
@@ -35,9 +35,17 @@ const Login = () => {
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);    
     const [RedirectState, setRedirectState] = useState(false);
-
+  
+    const [UserloggedIn, setUserloggedIn] = useState(false);  
+    const [VendorloggedIn, setVendorloggedIn] = useState(false);
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
+
+    const [checked, setChecked] = useState(false);
+  
+    const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
     const dispatch=useDispatch();
     const createUser = async (event) => {
@@ -49,22 +57,46 @@ const Login = () => {
         setEmailValid(await Email.isValid({ email: Data.email }));
         setPasswordValid(await Password.isValid({ password: Data.password }));
     }
-        const Login_customer = () => {
-            if(email && password){
+    const Login_customer = () =>{
+        
+    if(email && password){
+    if(!checked){
+        console.log("customer");
             axios.post("http://localhost:3001/loginUser", {
                 email:email,
                 password:password
             }).then((res) => {
-            dispatch(login({ name: res.data.name, email: email,location: res.data.location, loggedIn: true}));
+            dispatch(login({ id:res.data.id,UserloggedIn: true, VendorloggedIn:false}));
             setRedirectState(res.data.status);
-            console.log(res.data);    
+            setUserloggedIn(res.data.status);  
+            localStorage.setItem('id', res.data.id);
+            localStorage.setItem('UserloggedIn', true);
+            localStorage.setItem('VendorloggedIn',false);
                   
-        })}};
-
+        })}
+    else{
+        console.log("vendor");
+            axios.post("http://localhost:3001/loginVendor", {
+                email:email,
+                password:password
+            }).then((res) => {
+            dispatch(login({ id:res.data.id ,UserloggedIn: true, VendorloggedIn:false}));
+            // ,*{} name: res.data.name, email: email,location: res.data.location
+            setRedirectState(res.data.status);
+            setVendorloggedIn(res.data.status);
+            localStorage.setItem('id', res.data.id);
+            localStorage.setItem('UserloggedIn', false);
+            localStorage.setItem('VendorloggedIn',true);
+                  
+        })}}
+    };
 
     return (
         <>
-        { RedirectState ? <Navigate to="/" /> : 
+        { (RedirectState && UserloggedIn)  ? 
+        <Navigate to="/" /> : 
+        (RedirectState && VendorloggedIn)  ? 
+            <Navigate to="/View" />: 
         (<EntryPage>
             {/* <Router exact path="/"> */}
             <PageHeader to="/">Teezigner</PageHeader>
@@ -90,6 +122,9 @@ const Login = () => {
                         {passwordValid ? '' :
                             <TitleText>Invalid Password</TitleText>
                         }
+                    </InputGroup>
+                    <InputGroup>
+                    <span><input type="checkbox" placeholder="Select" id="login-check" onChange={handleChange}/>    I am a Vendour</span>                                                
                     </InputGroup>
                     <Button type="submit" full onClick={Login_customer}>Log in</Button>
                 </form>
