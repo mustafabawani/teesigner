@@ -166,12 +166,13 @@ const Cart = () => {
             <Wrapper>
                 <Title>Your Bag</Title>
                 <Top>
-                    <TopButton>Continue Shopping</TopButton>
-                    <TopTexts>
+                    <Link to="/">
+                    <TopButton>Continue Shopping</TopButton></Link>
+                    {/* <TopTexts>
                         <TopText>Shopping Bag(2)</TopText>
                         <TopText>Your Wishlist(0)</TopText>
-                    </TopTexts>
-                    <TopButton type="filled">Checkout Now</TopButton>
+                    </TopTexts> */}
+                    {/* <TopButton type="filled">Checkout Now</TopButton> */}
                 </Top>
                 <Bottom>
                     <Info>
@@ -188,9 +189,9 @@ const Cart = () => {
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
-                                    <Add/>
+                                    {/* <Add/> */}
                                     <ProductAmount>{cart.quantity} </ProductAmount>
-                                    <Remove/>
+                                    {/* <Remove/> */}
                                 </ProductAmountContainer>
                                 <ProductPrice>${item.cost}</ProductPrice>
                             
