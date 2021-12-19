@@ -5,7 +5,7 @@ var db = require('../Db');
 router.route("/:id").get((req, res) => {
     try{
     const vendor_id=req.params.id;
-    const sqlSelect = "Select * from product P,Vendor V where P.vendor_id=V.vendor_id and V.vendor_id=?;";
+    const sqlSelect = "Select * from vendor V where V.vendor_id=?;";
     db.query(sqlSelect,[vendor_id],(err,result)=>{
         res.send(result);
     });    

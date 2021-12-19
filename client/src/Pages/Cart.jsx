@@ -1,9 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Announcement from '../Components/Announcement'
 import Navbar from '../Components/Navbar'
 import styled from "styled-components"
 import Footer from '../Components/Footer'
-import { Add, Remove } from '@material-ui/icons'
+import { useSelector } from 'react-redux'
+import { Link } from "react-router-dom";
+import axios from 'axios'
 
 const Container=styled.div``
 
@@ -31,15 +33,6 @@ const TopButton=styled.button`
     background-color:${(props)=>props.type==="filled" ? "black" : "transparent"};    
     color:${(props)=>props.type==="filled" && "yellow"};
 `
-const TopTexts=styled.div`
-    
-`
-
-const TopText=styled.span`
-    text-decoration:underline;
-    cursor:pointer;
-    margin:0px 10px;
-`
 
 const Bottom=styled.div`
     display:flex;
@@ -64,6 +57,7 @@ const ProductDetail=styled.div`
 
 const Image=styled.img`
     width:200px;
+    margin bottom:5px;
 
 `
 
@@ -74,18 +68,12 @@ const Details=styled.div`
     justify-content:space-around;
 `
 
-const ProductName=styled.span``
-
-const ProductID=styled.span``
-
-const ProductColor=styled.div`
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background-color:${props=>props.color}
+const ProductName=styled.span`
+font-size:20px;
 `
-
-const ProductSize=styled.div``
+const ProductSize=styled.div`
+font-size:20px;
+`
 
 const PriceDetail=styled.div`
     flex:1;
@@ -101,7 +89,7 @@ const ProductAmountContainer=styled.div`
 `
 
 const ProductAmount=styled.div`
-    font-size:24px;
+    font-size:20px;
     margin:5px;
 
 `
@@ -150,7 +138,25 @@ const Button=styled.button`
     font-weight:600;
 `
 
-const Cart = () => {
+const Cart = () => { 
+    const [RedirectState, setRedirectState] = useState(false);
+    const cart=useSelector(state=>state.cart);
+    const customer_id=localStorage.getItem('id');
+    const UserloggedIn = useSelector(state => state.user.value.UserloggedIn);
+    console.log(UserloggedIn);
+    const placeOrder=()=>{
+        // if(cart.length>0){
+            axios.post("http://localhost:3001/order",{
+                products:cart.product,
+                customer_id:customer_id,
+                quantity:cart.quantity,
+                total:cart.total
+            }).then((res)=>{
+                setRedirectState(res.data.status);
+            })
+        // }
+    }
+
     return (
         <Container>
             <Announcement/>
@@ -159,74 +165,75 @@ const Cart = () => {
             <Wrapper>
                 <Title>Your Bag</Title>
                 <Top>
-                    <TopButton>Continue Shopping</TopButton>
-                    <TopTexts>
+                    <Link to="/">
+                    <TopButton>Continue Shopping</TopButton></Link>
+                    {/* <TopTexts>
                         <TopText>Shopping Bag(2)</TopText>
                         <TopText>Your Wishlist(0)</TopText>
-                    </TopTexts>
-                    <TopButton type="filled">Checkout Now</TopButton>
+                    </TopTexts> */}
+                    {/* <TopButton type="filled">Checkout Now</TopButton> */}
                 </Top>
                 <Bottom>
                     <Info>
-                        <Product>
+                        {cart.product.map((item) => (
+                        <>
+                        {console.log(item)}
+                        {/* {getProduct(item)} */}
+                            <Product>
                             <ProductDetail>
-                                <Image src="https://rascofr.com/wp-content/uploads/2020/08/FR8303CH-Womens-Charcoal-Gray-Field-Pant-copy.jpg"/>
+                                <Image src={item.product.picture_url}/>
                                 <Details>
-                                    <ProductName><b>Product:</b>Naima Tshirt</ProductName>
-                                    <ProductID><b>ID:</b>123</ProductID>
-                                    <ProductColor color="black"/>
-                                    <ProductSize><b>Size:</b>L</ProductSize>
+                                    <ProductName><b>Product:</b>{item.product.product_name}</ProductName>
+                                    {/* <ProductID><b>ID:</b>{item.product_id}</ProductID> */}
+                                    <ProductSize><b>Size:</b>{item[0]}</ProductSize>
+                                    <ProductAmount><b>Quatity:</b>{item.quantity} </ProductAmount>
                                 </Details>
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
-                                    <Add/>
-                                    <ProductAmount>2 </ProductAmount>
-                                    <Remove/>
+                                    {/* <Add/> */}
+                                    {/* <Remove/> */}
                                 </ProductAmountContainer>
-                                <ProductPrice>$10</ProductPrice>
+                                <ProductPrice><b>Rs</b>{item.product.unit_price}</ProductPrice>
+                            
                             </PriceDetail>
+                            
                         </Product>
-                        <Hr/>
-                        <Product>
-                            <ProductDetail>
-                                <Image src="https://rascofr.com/wp-content/uploads/2020/08/FR8303CH-Womens-Charcoal-Gray-Field-Pant-copy.jpg"/>
-                                <Details>
-                                    <ProductName><b>Product:</b>Naima Tshirt</ProductName>
-                                    <ProductID><b>ID:</b>123</ProductID>
-                                    <ProductColor color="black"/>
-                                    <ProductSize><b>Size:</b>L</ProductSize>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <Add/>
-                                    <ProductAmount>2 </ProductAmount>
-                                    <Remove/>
-                                </ProductAmountContainer>
-                                <ProductPrice>$10</ProductPrice>
-                            </PriceDetail>
-                        </Product>
+                        <Hr/></>))}
+                        
                     </Info>
                     <Summary>
                         <SummaryTitle>Order Summary</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>$30</SummaryItemPrice>
+                            <SummaryItemPrice>Rs{cart.total}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Estimated Shipping</SummaryItemText>
-                            <SummaryItemPrice>$ 5</SummaryItemPrice>
+                            <SummaryItemPrice>Rs500</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>ShippingDiscount</SummaryItemText>
-                            <SummaryItemPrice>$ -5</SummaryItemPrice>
+                            <SummaryItemPrice>0</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem type="total">
                             <SummaryItemText >Total</SummaryItemText>
-                            <SummaryItemPrice>$30</SummaryItemPrice>
+                            <SummaryItemPrice>Rs{cart.total+500}</SummaryItemPrice>
                         </SummaryItem>
-                        <Button>Checkout Now</Button>
+                        { (UserloggedIn)  ? 
+                        (<>
+                            <Link to="/Alert">
+                            <Button onClick={placeOrder}>Checkout Now</Button>
+                            </Link>
+                        </>)
+                        :
+                        (<>
+                        <Link to="/SignUp">
+                            <Button>Checkout Now</Button>
+                            </Link>
+                            </>
+                        )}
+
                     </Summary>
 
                 </Bottom>

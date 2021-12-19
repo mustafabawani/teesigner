@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login} from "../features/user";
+import { Alert, Snackbar } from '@mui/material';
 
 const EntryPage = styled.div`
 display : flex;
@@ -69,6 +70,7 @@ const Login = () => {
             dispatch(login({ id:res.data.id,UserloggedIn: true, VendorloggedIn:false}));
             setRedirectState(res.data.status);
             setUserloggedIn(res.data.status);  
+            // setVendorloggedIn(false);
             localStorage.setItem('id', res.data.id);
             localStorage.setItem('UserloggedIn', true);
             localStorage.setItem('VendorloggedIn',false);
@@ -80,25 +82,33 @@ const Login = () => {
                 email:email,
                 password:password
             }).then((res) => {
-            dispatch(login({ id:res.data.id ,UserloggedIn: true, VendorloggedIn:false}));
+            dispatch(login({ id:res.data.id ,UserloggedIn: false, VendorloggedIn:true}));
             // ,*{} name: res.data.name, email: email,location: res.data.location
             setRedirectState(res.data.status);
             setVendorloggedIn(res.data.status);
+            // setUserloggedIn(false);            
             localStorage.setItem('id', res.data.id);
             localStorage.setItem('UserloggedIn', false);
             localStorage.setItem('VendorloggedIn',true);
                   
         })}}
     };
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     return (
         <>
         { (RedirectState && UserloggedIn)  ? 
-        <Navigate to="/" /> : 
+        (
+        <>
+        <Navigate to="/" /> 
+        </> ): 
         (RedirectState && VendorloggedIn)  ? 
             <Navigate to="/View" />: 
         (<EntryPage>
-            {/* <Router exact path="/"> */}
             <PageHeader to="/">Teezigner</PageHeader>
             {/* </Router> */}
             <EntryCard>

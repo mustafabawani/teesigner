@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Navigate,Link } from "react-router-dom";
 import { Name,Cost } from '../Validation/Validation'
 import EntryCard from '../Components/EntryCard';
 import { useState } from "react";
@@ -7,7 +7,7 @@ import InputGroup from '../Components/InputGroup';
 import Input from '../Components/Input';
 import Button from '../Components/Button';
 import styled from 'styled-components';
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 
 const EntryPage = styled.div`
 display : flex;
@@ -55,11 +55,11 @@ const CreateProduct = () => {
     const [costValid, setCostValid] = useState(true);
     
     const [productName, setProductName] = useState("");
-    
     const [productDesc, setProductDesc] = useState("");
-    const [unit_price, setUnit_price] = useState("");
+    const [unit_price, setUnit_price] = useState(0);
     const [fileInputState, setFileInputState] = useState('');
     const [selectedFile, setSelectedFile] = useState();
+    const [RedirectState, setRedirectState] = useState(false);
 
     const createUser = async (event) => {
         event.preventDefault();
@@ -72,34 +72,53 @@ const CreateProduct = () => {
     }
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
+        console.log(file);
         // previewFile(file);
         setSelectedFile(file);
         setFileInputState(e.target.value);
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        // console.log("in");
         if (!selectedFile && !productDesc && !productName && !unit_price) return;
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onloadend = () => {
-            CreateProduct(reader.result);
+        // const reader = new FileReader();
+        // reader.readAsDataURL(selectedFile);
+        // reader.onloadend = () => {
+            const formData = new FormData();
+            formData.append("file",selectedFile);
+            formData.append("upload_preset","tezigner_images");
+            axios.post("https://api.cloudinary.com/v1_1/fast123/image/upload",formData
+            ).then((Response)=>{
+                // console.log(Response.data.url);
+            // });
+            CreateProduct(Response.data.url);
+            });
         };
-        reader.onerror = () => {
-            console.error('AHHHHHHHH!!');
+        // reader.onerror = () => {
+            // console.error('AHHHHHHHH!!');
             // setErrMsg('something went wrong!');
-        };
-    };
-    const CreateProduct = (base64EncodedImage) => {   
+        // };
+        const vendor_id=localStorage.getItem('id');
+    const CreateProduct = (url) => {  
+        // console.log("yees"); 
             axios.post("http://localhost:3001/createProduct", {
                 productName:productName,
                 productDesc:productDesc,
                 unit_price:unit_price,
-                fileStr:JSON.stringify({data:base64EncodedImage}),
+                vendor_id:vendor_id,
+                picture_url:url,
+            }).then((res)=>{
+                setRedirectState(res.data.status);
             })
     };
     
-    return (
-        <EntryPage>
+    return ( 
+    <> { 
+        (RedirectState )  ? 
+        (<>
+            <Navigate to="/View" /> 
+            </>):
+        (<EntryPage>
             <PageHeader to="/">Teezigner</PageHeader>
             <EntryCard>
                 <h2>Create Product</h2>
@@ -140,11 +159,12 @@ const CreateProduct = () => {
 
             
                     <Profit>The Company takes 60% of the profits on each sale.</Profit>
-                    <Button type="submit" onclick={handleSubmit}full>Upload</Button>
+                    <Button type="submit" onClick={handleSubmit}full>Upload</Button>
                 </form>
                 
             </EntryCard>
-        </EntryPage>
+        </EntryPage>)}
+                </>
     )
 }
 

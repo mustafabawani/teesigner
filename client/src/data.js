@@ -2,8 +2,8 @@ export const sliderItems = [
     {
         id: 1,
         img: "https://www.rushordertees.com/design/ZoomImage.php?src=NTUyMTM2Mw_f&style=RT2000&colorCode=WHT&x=240&y=300&width=880&height=880&scale=1.7&watermark=false&autoInvertDesign=true.jpg",
-        title: "Summer Sale",
-        desc: "Best Quality",
+        title: "Your Inspirations, Our Artists",
+        // desc: "Best Quality",
         bg: "fbf0fd",
     },
     {

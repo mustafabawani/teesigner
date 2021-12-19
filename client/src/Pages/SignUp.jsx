@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../features/user";
-import ls from 'local-storage'
 
 
 
@@ -108,12 +107,20 @@ function SignUp() {
             })}
         }
     };
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     
     return (
         <> { (RedirectState && UserloggedIn)  ? 
-            <Navigate to="/" /> : 
+            (<>
+                <Navigate to="/" /> </>): 
             (RedirectState && VendorloggedIn)  ? 
-                <Navigate to="/View" />: 
+                (
+                <>
+              <Navigate to="/View" /></>): 
         (<EntryPage>
             <PageHeader to="/">Teezigner</PageHeader>
             <EntryCard>

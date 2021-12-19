@@ -5,6 +5,7 @@ var app = express();
 var db = require('../Db');
 
 router.route("/").post((req, res)=>{
+  try{
   var email=req.body.email;
   var password=req.body.password;
   var querry='SELECT * FROM customer WHERE email = ?';
@@ -39,5 +40,8 @@ router.route("/").post((req, res)=>{
       }
     }
   });
+}catch (err){
+  console.log(err);
+}
 });
 module.exports = router;

@@ -4,6 +4,7 @@ var bcrypt = require('bcrypt');
 var app = express();
 var db = require('../Db');
 router.route("/").post((req, res) => {
+    try{
     const name=req.body.name;
     const email=req.body.email;
     const password=req.body.password;
@@ -19,6 +20,7 @@ router.route("/").post((req, res) => {
                 const sqlInsert = 
                 "INSERT INTO customer (name,email,password,location) VALUES (?,?,?,?);";
                 db.query(sqlInsert,[name,email,encryptedPassword,location],(err,result)=>{
+                    db.query("SELECT customer_id FROM customer WHERE customer_id = @@Identity",(err,results)=>{
                     if (err) {
                         res.json({
                             status:false,
@@ -30,7 +32,9 @@ router.route("/").post((req, res) => {
                             message:'user registered sucessfully'
                         })
                         }
+                    });
                 });
+                
             }else{
                 res.json({
                     status:false,
@@ -45,7 +49,9 @@ router.route("/").post((req, res) => {
             message:'Invalid Input'
         })
     }
-
+}catch (err){
+    console.log(err);
+}
 });
 
 module.exports = router;

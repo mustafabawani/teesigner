@@ -4,10 +4,12 @@ import App from './App';
 import {configureStore} from "@reduxjs/toolkit";
 import { Provider } from 'react-redux';
 import userReducer from './features/user'
+import cartReducer from './features/cartRedux'
 
 const store= configureStore({
   reducer:{
-    user: userReducer
+    user: userReducer, 
+    cart:cartReducer,
   },
 })
 ReactDOM.render(

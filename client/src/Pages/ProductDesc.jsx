@@ -7,6 +7,8 @@ import Navbar from '../Components/Navbar'
 import Newsletter from '../Components/Newsletter'
 import {useParams} from "react-router-dom"
 import axios from 'axios'
+import { addProduct } from '../features/cartRedux'
+import { useDispatch } from 'react-redux';
 const Container=styled.div`
 
 `
@@ -127,7 +129,28 @@ const ProductDesc = () => {
     });
     
   }, []);
-    console.log(product);
+
+    const [quantity, setQuantity] = useState(1);
+    const[size,setSize]=useState("s");
+    const dispatch=useDispatch();
+    const handleQuantity=(type)=>{
+        if(type==="dec")
+        {
+            if(quantity>0)
+                setQuantity(quantity-1);
+            else
+            setQuantity(0);
+        }
+        else
+        {
+            setQuantity(quantity+1);
+        }
+    };
+    const handleClick = ()=>{
+        //update cart
+        dispatch(addProduct({... size,product,quantity}));
+    }
+    // console.log(product);
     
     return (
         <Container>
@@ -141,18 +164,12 @@ const ProductDesc = () => {
                     <Title>{product.product_name}</Title>
                     <Subtitle>Designed By:{product.name}</Subtitle>
                     <Desc>T-shirts are generally made of a stretchy, light, and inexpensive fabric and are easy to clean.</Desc>
-                    <Price>${product.unit_price}</Price>
+                    <Price>Rs{product.unit_price}</Price>
                     <FilterContainer>
-                        {/* <Filter>
-                            <FilterTitle>Color</FilterTitle>
-                            <FilterColor color="black"/>
-                            <FilterColor color="darkblue"/>
-                            <FilterColor color="gray"/>
-                        </Filter> */}
-
+                        
                         <Filter>
                              <FilterTitle>Size</FilterTitle>
-                             <FilterSize>
+                             <FilterSize onChange={(e)=>setSize(e.target.value)}>
                                  <FilterSizeOption>S</FilterSizeOption>
                                  <FilterSizeOption>M</FilterSizeOption>
                                  <FilterSizeOption>L</FilterSizeOption>
@@ -161,11 +178,11 @@ const ProductDesc = () => {
                     </FilterContainer>
                     <AddContainer>
                         <AmountContainer>
-                            <Remove/>
-                            <Amount>1</Amount>
-                            <Add/>
+                            <Remove onClick={()=>handleQuantity("dec")}/>
+                            <Amount>{quantity}</Amount>
+                            <Add onClick={()=>handleQuantity("inc")}/>
                         </AmountContainer>
-                        <Button>ADD TO CART</Button>
+                        <Button onClick={handleClick}>ADD TO CART</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>

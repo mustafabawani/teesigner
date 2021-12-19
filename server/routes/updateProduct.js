@@ -6,15 +6,14 @@ var cloudinary=require('../cloudinary')
 router.route("/").post((req, res) => {
     try{
     return new Promise(function (resolve, reject) {
+    console.log("in");
+        const product_id=parseInt(req.body.id);
         const ProductName=req.body.productName;
         const ProductDesc=req.body.productDesc;
         const unit_price=parseInt(req.body.unit_price);
-        const picture_url = req.body.picture_url;
-        const vendor_id=parseInt(req.body.vendor_id);
-        const category_id='c1';
-        console.log([ProductName,ProductDesc,picture_url,unit_price,vendor_id,category_id]);
-        const sqlInsert="INSERT INTO product (product_name,product_desc,picture_url,unit_price,vendor_id,category_id) VALUES (?,?,?,?,?,?);";
-                db.query(sqlInsert,[ProductName,ProductDesc,picture_url,unit_price,vendor_id,category_id],(err,result)=>{
+        console.log(product_id,ProductDesc,ProductName,unit_price);
+        const sqlInsert="UPDATE product set product_name= ?,product_desc=?,unit_price=? where product_id=?;";
+                db.query(sqlInsert,[ProductName,ProductDesc,unit_price,product_id],(err,result)=>{
                     console.log('in');
                     if (err) {
                         res.json({
@@ -23,16 +22,10 @@ router.route("/").post((req, res) => {
                         })
                     }
                 });
-                res.json({
-                    status:true,
-                    message:'product created'
-                })
             });
+        }catch (err){
+            console.log(err);
         }
-            catch (err){
-                console.log(err);
-            }
-
 });
 
 module.exports = router;

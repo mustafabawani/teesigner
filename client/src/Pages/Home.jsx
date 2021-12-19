@@ -6,7 +6,7 @@ import Products from '../Components/Products';
 import Newsletter from '../Components/Newsletter';
 import Footer from '../Components/Footer';
 import { Alert, Snackbar } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 export default function Home() {
     const loggedIn = (state => state.user.value.loggedIn);
@@ -20,6 +20,11 @@ export default function Home() {
             setOpen(open => true);
         }
     }, []);
+const Image=styled.img`
+display:block;
+margin-left: auto;
+margin-right: auto;
+`
 
     return (
         <div>
@@ -33,6 +38,7 @@ export default function Home() {
               </Snackbar>)
             }
             <Slider/>
+            <Image  src="https://res.cloudinary.com/fast123/image/upload/v1639934192/homeImg_tqnm0w.png"/>
             <Products/>  
             <Newsletter/>
             <Footer />

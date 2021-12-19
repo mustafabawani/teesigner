@@ -9,6 +9,7 @@ import SignUp from './Pages/SignUp';
 import CreateProduct from './Pages/CreateProduct';
 import EditProduct from './Pages/EditProduct';
 import View from './Pages/View';
+import Alert from './Pages/Alert';
 
 
 const App = () => {
@@ -21,9 +22,10 @@ const App = () => {
             <Route exact path="/SignUp" element={<SignUp/>} />
             <Route exact path="/Login" element={<Login/>} />
             <Route exact path="/Cart" element={<Cart/>} />
-            <Route exact path="/EditProduct" element={<EditProduct/>} />
+            <Route exact path="/EditProduct/:id" element={<EditProduct/>} />
             <Route exact path="/CreateProduct" element={<CreateProduct/>} />
             <Route exact path="/View" element={<View/>} />
+            <Route exact path="/Alret" element={<Alert/>} />
           </Routes>
       </BrowserRouter>
   )

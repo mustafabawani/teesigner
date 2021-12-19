@@ -10,7 +10,8 @@ router.route("/").post((req, res)=>{
   var querry='SELECT * FROM vendor WHERE email = ?';
   // console.log("here");
   db.query(querry,email, function (err, results, fields) {
-    console.log("in");
+   try{
+    // console.log("in");
       if (err) {
         res.json({
           status:false,
@@ -40,6 +41,8 @@ router.route("/").post((req, res)=>{
         });
       }
     }
-  });
+  }catch (err){
+    console.log(err);
+}});
 });
 module.exports = router;

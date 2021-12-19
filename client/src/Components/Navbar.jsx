@@ -6,7 +6,8 @@ import {mobile} from "../Responsive"
 import {logout} from '../features/user'
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Avatar from "@material-ui/core/Avatar";
 
 const Container = styled.div`
     height: 60px;
@@ -17,6 +18,9 @@ const Container = styled.div`
     z-index: 3;
     
 `
+const BorderedAvatar = styled(Avatar)`
+border: 0px solid black;
+`;
 const Wrapper = styled.div`
     padding: 10px 20px;
     display: flex;
@@ -76,6 +80,14 @@ const Input = styled.input`
         outline: none;
     }
 `
+const Button=styled.button`
+width:20%;
+padding:10px;
+background-color:yellow;
+border:0px;
+color:balck;
+font-weight:400;
+`
 const Logo = styled.h1`
     font-weight:bold;
     color:black;
@@ -84,6 +96,7 @@ const Logo = styled.h1`
 export default function Navbar() {
     const dispatch = useDispatch();
 
+    const quantity=useSelector(state => state.cart.quantity);
     const UserloggedIn = useSelector(state => state.user.value.UserloggedIn);
     const VendorloggedIn = useSelector(state => state.user.value.VendorloggedIn);
     // const UserloggedIn=React.useState(localStorage.getItem('UserloggedIn'));
@@ -112,15 +125,22 @@ export default function Navbar() {
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <Link to="/"><Logo>Teezigners</Logo></Link>
+                {(VendorloggedIn)?<Link to="/View"><Logo>Teezigners</Logo></Link>:<Link to="/"><Logo>Teezigners</Logo></Link>}
                 </Center>
                 <Right>
                     {}
                 {(UserloggedIn)?
-                (<button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></button>):
+                (<>
+                <Button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></Button>
+                <BorderedAvatar
+                    alt="User Avatar"
+                    src="https://th.bing.com/th/id/OIP.loKKNQfqb7LzxjKU7CRyiAHaHa?pid=ImgDet&rs=1"
+                  />
+                </>):
+                
                 (VendorloggedIn)?
                     (<>
-                    <button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></button>
+                    <Button onClick={logoutHandler}><Link to ="/"><MenuItem>Logout</MenuItem></Link></Button>
                     <Link to="/CreateProduct"><MenuItem>Create product</MenuItem></Link>
                     <Link to="/View"><MenuItem>Your products</MenuItem> </Link>
                     </>)
@@ -130,12 +150,14 @@ export default function Navbar() {
                 <Link to="/SignUp"><MenuItem>SignUp</MenuItem> </Link>
                 </>)
                 }
-            
+                 {(!VendorloggedIn)?
+                 (<>
                     <MenuItem>
-                    <Badge badgeContent={4} color="primary">
-                    <Link to="/cart"><ShoppingCartOutlined /></Link>                    
-                    </Badge>
+                        <Badge badgeContent={quantity} color="primary">  
+                            <Link to="/cart"><ShoppingCartOutlined /></Link>                    
+                        </Badge>
                     </MenuItem>
+                    </>):null}
                 </Right>
             </Wrapper>
         </Container>

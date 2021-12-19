@@ -6,7 +6,6 @@ import {Edit, Delete } from '@material-ui/icons'
 import { Link } from "react-router-dom";
 import React, {  useEffect, useState } from "react";
 import axios from 'axios';
-import { useSelector } from "react-redux";
 
 const Container=styled.div``
 
@@ -89,6 +88,8 @@ const Icons = styled.a`
 
 const View = () => {
         const [productList, setProductList] = useState([]);
+        const [VendorDetails, setVendorDetails] = useState([]);
+        const earned=0;
         const id = localStorage.getItem('id');
         // console.log(id);
         useEffect(() => {
@@ -98,6 +99,18 @@ const View = () => {
           });
           
         }, []);
+        useEffect(() => {
+            axios.get("http://localhost:3001/VendorDetails/"+ id.toString()).then((response) => {
+
+              setVendorDetails(response.data.earned);
+            //   earned=response.data.earned;
+            });
+            
+          }, []);
+        const deleteProduct = (id) => {
+            console.log("abe yar");
+            axios.delete("http://localhost:3001/deleteProduct/"+ id.toString());
+        };
     return (
         <Container>
             <Announcement/>
@@ -106,6 +119,7 @@ const View = () => {
             <Wrapper>
                 <Title>Product View</Title>
                 <Top>
+                    {/* <h3>Money Earned:{earned}</h3> */}
                 </Top>
                 <Bottom>
                     <Info>
@@ -121,7 +135,10 @@ const View = () => {
                                 <Hr/>
 
                                 </Details>
-                                <Icons><Link to="/EditProduct">  <Edit/><br/> <Delete/></Link></Icons>
+                                <Icons><Link to={'/EditProduct/' + item.product_id}><button> <Edit/></button></Link>
+                                <br/>
+                                <button onClick={()=>{deleteProduct(item.product_id)}}> <Delete/></button>
+                                </Icons>
                                 </>
                             ))}
                             </ProductDetail>
